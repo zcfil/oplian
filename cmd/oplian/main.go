@@ -10,15 +10,11 @@ import (
 	"fmt"
 	"go.uber.org/zap"
 	"log"
+	"oplian/build"
 	"oplian/core"
 	"oplian/global"
 	"oplian/initialize"
 	_ "oplian/source/system"
-)
-
-var (
-	GitTag    = "2000.01.01.release"
-	BuildTime = "2000-01-01T00:00:00+0800"
 )
 
 // @title                       Swagger Example API
@@ -34,8 +30,7 @@ func main() {
 	flag.Parse()
 
 	if *version {
-		fmt.Println("Git Tag: " + GitTag)
-		fmt.Println("Build Time: " + BuildTime)
+		fmt.Printf("oplian version %s\n", build.UserVersion())
 	} else {
 		go initialize.GateWayHeartbeat(context.Background())
 		core.ViperRoom("config/config_room.yaml")
