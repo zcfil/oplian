@@ -1,13 +1,9 @@
 package slot
 
 import (
-	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"oplian/global"
 	"oplian/model/common/response"
 	"oplian/model/slot/request"
-	"oplian/service/pb"
 )
 
 type SlotApi struct{}
@@ -30,14 +26,14 @@ func (slot *SlotApi) InstallSlot(c *gin.Context) {
 	var errMsg string
 	switch param.Name {
 	case "unsealed":
-		for _, gclient := range global.GateWayClinets.Gets() {
-			//新增存储
-			_, err = gclient.InstallUnsealed(context.Background(), &pb.String{})
-			if err != nil {
-				errMsg += fmt.Sprintf("%s\n", err.Error())
-				continue
-			}
-		}
+		//for _, gclient := range global.GateWayClinets.Gets() {
+		//	//新增存储
+		//	//_, err = gclient.InstallUnsealed(context.Background(), &pb.String{})
+		//	//if err != nil {
+		//	//	errMsg += fmt.Sprintf("%s\n", err.Error())
+		//	//	continue
+		//	//}
+		//}
 	}
 	response.OkWithMessage(errMsg, c)
 }

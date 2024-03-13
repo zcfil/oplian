@@ -1,22 +1,3 @@
-autocode:
-  transfer-restart: true
-  root: G:\project\zc-admin
-  server: /server
-  server-api: /api/v1/%s
-  server-plug: /plugin/%s
-  server-initialize: /initialize
-  server-model: /model/%s
-  server-request: /model/%s/request/
-  server-router: /router/%s
-  server-service: /service/%s
-  web: /web/src
-  web-api: /api
-  web-form: /view
-  web-table: /view
-captcha:
-  key-long: 6
-  img-width: 240
-  img-height: 80
 cors:
   mode: whitelist
   whitelist:
@@ -33,7 +14,7 @@ cors:
       Content-Type
     allow-credentials: true
 jwt:
-  signing-key: 8b356e3d-5e35-47a6-a933-07baa8cc0fcb
+  signing-key: abcd
   expires-time: 7d
   buffer-time: 1d
   issuer: qmPlus
@@ -41,12 +22,12 @@ local:
   path: uploads/file
   store-path: uploads/file
 mysql:
-  path: 8.129.83.148
+  path: 127.0.0.1
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: zc_test
+  db-name: test
   username: root
-  password: ZCXTong@2023!+
+  password: 123456
   max-idle-conns: 10
   max-open-conns: 100
   log-mode: error
@@ -59,14 +40,3 @@ system:
   use-multipoint: false
   iplimit-count: 15000
   iplimit-time: 3600
-timer:
-  start: true
-  spec: '@daily'
-  with_seconds: false
-  detail:
-  - tableName: sys_operation_records
-    compareField: created_at
-    interval: 2160h
-  - tableName: jwt_blacklists
-    compareField: created_at
-    interval: 168h

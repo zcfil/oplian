@@ -212,7 +212,7 @@ func (deploy StorageService) FindSealStorage(workerPath string, sector *pb.Secto
 				continue
 			}
 
-			count := PathSealCount.GetRun(path.Path, minerSector)
+			count := PathSealCount.GetRun(path.Path, minerSector, sector.ProofType)
 
 			filepath.Walk(filepath.Join(path.Path, "/cache"), func(spath string, info fs.FileInfo, err error) error {
 				if info == nil {
@@ -420,14 +420,13 @@ func (deploy StorageService) FindAllSector(dir string, sectorPath []string, mine
 	actor := utils.MinerActorID(miner)
 	var wg sync.WaitGroup
 	wg.Add(len(storages.StoragePaths))
+	var ssize int64 = define.Ss32GiB
 	for _, paths1 := range storages.StoragePaths {
 
 		go func(paths LocalPath) {
 
 			defer func() { wg.Done() }()
 
-			//扇区数量统计
-			//startTime := time.Now()
 			var wg1 sync.WaitGroup
 			wg1.Add(len(sectorPath))
 			for _, sectorPathStr1 := range sectorPath {
@@ -445,7 +444,7 @@ func (deploy StorageService) FindAllSector(dir string, sectorPath []string, mine
 						if actorId == 0 {
 							return nil
 						}
-
+						ssize = info.Size()
 						switch sectorPathStr {
 						case define.FTUnsealed.String():
 							go func() {
@@ -487,10 +486,9 @@ func (deploy StorageService) FindAllSector(dir string, sectorPath []string, mine
 
 			}
 			wg1.Wait()
-			//log.Println("FindAllSector 扇区数量统计 耗时:", time.Now().Sub(startTime))
-
-			//扇区路径
-			//startTime1 := time.Now()
+			if utils.DiskSpaceSufficientCount(paths.Path, uint64(ssize), PathSealCount.GetRun(paths.Path, "", uint64(ssize))) == 0 {
+				return
+			}
 			var meta LocalStorageMeta
 			cfgBuf, err := os.ReadFile(filepath.Join(paths.Path, define.SectorStoreConfig))
 			if err != nil {
@@ -520,7 +518,6 @@ func (deploy StorageService) FindAllSector(dir string, sectorPath []string, mine
 					return nil
 				})
 			}
-			//log.Println("FindAllSector 扇区路径 耗时:", time.Now().Sub(startTime1))
 
 		}(paths1)
 	}

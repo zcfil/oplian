@@ -2,11 +2,8 @@ package initialize
 
 import (
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"net/http"
-	_ "oplian/docs"
 	"oplian/global"
 	"oplian/middleware"
 	"oplian/router"
@@ -32,9 +29,6 @@ func routers() *gin.Engine {
 	//Router.UsePercent(middleware.Cors())
 	//Router.UsePercent(middleware.CorsByRules())
 	//log.Println("use middleware cors")
-	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	log.Println("register swagger handler")
-	// Add routing group prefixes in a unified manner. Multiple servers go online
 
 	PublicGroup := Router.Group("")
 	{
@@ -58,10 +52,8 @@ func routers() *gin.Engine {
 		systemRouter.InitMenuRouter(PrivateGroup)
 		systemRouter.InitSystemRouter(PrivateGroup)
 		systemRouter.InitCasbinRouter(PrivateGroup)
-		systemRouter.InitAutoCodeRouter(PrivateGroup)
 		systemRouter.InitAuthorityRouter(PrivateGroup)
 		systemRouter.InitSysDictionaryRouter(PrivateGroup)
-		systemRouter.InitAutoCodeHistoryRouter(PrivateGroup)
 		systemRouter.InitSysOperationRecordRouter(PrivateGroup)
 		systemRouter.InitSysDictionaryDetailRouter(PrivateGroup)
 		systemRouter.InitAuthorityBtnRouterRouter(PrivateGroup)

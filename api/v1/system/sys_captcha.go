@@ -23,7 +23,7 @@ type BaseApi struct{}
 // @Router    /base/captcha [post]
 func (b *BaseApi) Captcha(c *gin.Context) {
 
-	driver := base64Captcha.NewDriverDigit(global.ZC_CONFIG.Captcha.ImgHeight, global.ZC_CONFIG.Captcha.ImgWidth, global.ZC_CONFIG.Captcha.KeyLong, 0.7, 80)
+	driver := base64Captcha.NewDriverDigit(80, 240, 6, 0.7, 80)
 	// cp := base64Captcha.NewCaptcha(driver, store.UseWithCtx(c))
 	cp := base64Captcha.NewCaptcha(driver, store)
 	id, b64s, err := cp.Generate()
@@ -35,6 +35,6 @@ func (b *BaseApi) Captcha(c *gin.Context) {
 	response.OkWithDetailed(systemRes.SysCaptchaResponse{
 		CaptchaId:     id,
 		PicPath:       b64s,
-		CaptchaLength: global.ZC_CONFIG.Captcha.KeyLong,
+		CaptchaLength: 6,
 	}, "Verification code obtained successfully", c)
 }

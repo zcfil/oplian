@@ -40,28 +40,6 @@ import (
 	"oplian/utils"
 )
 
-func Timer() {
-	if global.ZC_CONFIG.Timer.Start {
-		for i := range global.ZC_CONFIG.Timer.Detail {
-			go func(detail config.Detail) {
-				var option []cron.Option
-				if global.ZC_CONFIG.Timer.WithSeconds {
-					option = append(option, cron.WithSeconds())
-				}
-				_, err := global.ZC_Timer.AddTaskByFunc("ClearDB", global.ZC_CONFIG.Timer.Spec, func() {
-					err := utils.ClearTable(global.ZC_DB, detail.TableName, detail.CompareField, detail.Interval)
-					if err != nil {
-						fmt.Println("timer error:", err)
-					}
-				}, option...)
-				if err != nil {
-					fmt.Println("add timer error:", err)
-				}
-			}(global.ZC_CONFIG.Timer.Detail[i])
-		}
-	}
-}
-
 // ConnectWeb gateway Connection web
 func ConnectWeb(ctx context.Context) error {
 	//gid := uuid.New()

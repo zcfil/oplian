@@ -5,8 +5,6 @@ import "service/proto/slot/slot_header.proto";
 import "service/proto/header.proto";
 
 service SlotGateService{
-  rpc AddUnsealed (batchUnsealed) returns (google.protobuf.Empty);
-  rpc InstallUnsealed (String) returns (google.protobuf.Empty);
   //workerCar RPC
   rpc GetRunWorkerTask(String)returns (CarWorkerTaskNoInfo){}
   rpc ModifyCarTaskNo(CarWorkerTaskNoInfo)returns (ResponseMsg){}

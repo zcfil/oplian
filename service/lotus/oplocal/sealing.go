@@ -22,7 +22,6 @@ func (p *OpLotusService) SealingAbort(args *pb.FilRestWorker) error {
 	for _, tk := range tasks {
 		switch tk.TType {
 		case define.AddPiece.String(), define.SealPreCommit1.String():
-			//判断扇区状态
 			var actor, _ = strconv.ParseUint(tk.MinerId, 10, 64)
 			log.Println("SealingAbort()", args.Host.Token, args.Host.Ip, actor, tk.SectorId, tk.Tid)
 			if err := lotusrpc.FullApi.SealingAbort(args.Host.Token, args.Host.Ip, actor, tk.SectorId, tk.Tid); err != nil {

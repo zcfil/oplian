@@ -3,19 +3,16 @@ package core
 import (
 	"flag"
 	"fmt"
+	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	"oplian/config"
 	"oplian/core/internal"
 	"oplian/define"
 	"os"
-	"path/filepath"
-
-	"github.com/fsnotify/fsnotify"
-	"github.com/spf13/viper"
 
 	uuid "github.com/satori/go.uuid"
 	"oplian/global"
-	_ "oplian/packfile"
 )
 
 func Viper(path ...string) *viper.Viper {
@@ -24,7 +21,7 @@ func Viper(path ...string) *viper.Viper {
 	if len(path) == 0 {
 		flag.StringVar(&config, "c", "", "choose config file.")
 		flag.Parse()
-		if config == "" { // 判断命令行参数是否为空
+		if config == "" {
 			if configEnv := os.Getenv(internal.ConfigEnv); configEnv == "" { // 判断 internal.ConfigEnv 常量存储的环境变量是否为空
 				switch gin.Mode() {
 				case gin.DebugMode:
@@ -68,7 +65,6 @@ func Viper(path ...string) *viper.Viper {
 		fmt.Println(err)
 	}
 
-	global.ZC_CONFIG.AutoCode.Root, _ = filepath.Abs("..")
 	return v
 }
 

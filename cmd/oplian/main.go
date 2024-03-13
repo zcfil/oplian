@@ -44,8 +44,6 @@ func main() {
 		global.ZC_LOG = core.Zap()
 		zap.ReplaceGlobals(global.ZC_LOG)
 		global.ZC_DB = initialize.Gorm()
-		initialize.Timer()
-		initialize.DBList()
 		//go initialize.PolicyWarn(context.TODO())
 		if global.ZC_DB != nil {
 			initialize.RegisterTables(global.ZC_DB)

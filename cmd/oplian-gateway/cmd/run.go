@@ -10,6 +10,7 @@ import (
 	"log"
 	"net"
 	"oplian/api_grpc/gateway"
+	"oplian/api_grpc/slot_gateway"
 	"oplian/core"
 	"oplian/define"
 	"oplian/global"
@@ -38,8 +39,6 @@ var Run = &cli.Command{
 		zap.ReplaceGlobals(global.ZC_LOG)
 
 		global.ZC_DB = initialize.Gorm()
-		initialize.Timer()
-		initialize.DBList()
 		if global.ZC_DB != nil {
 			initialize.RegisterTables(global.ZC_DB)
 			log.Println(initialize.InitMysqlData())
@@ -75,12 +74,12 @@ var Run = &cli.Command{
 			}
 		}
 		log.Println("---step5---")
-		
+
 		service.ServiceGroupApp.GatewayServiceGroup.DownloadAddressFile([]string{define.IPAddressFile}, define.PathIpfsConfig, define.DownLoadAddressOut)
-		
+
 		service.ServiceGroupApp.GatewayServiceGroup.DownloadAddressFile([]string{define.ProgramLotus.String(), define.ProgramMiner.String(),
 			define.ProgramWorkerTask.String(), define.ProgramBoost.String(), define.ProgramBoostd.String()}, define.PathIpfsProgram, define.DownLoadAddressOut)
-		
+
 		service.ServiceGroupApp.GatewayServiceGroup.DownloadAddressFile([]string{define.OPlianOpFile, define.OPlianOpC2File}, define.PathOplian, define.DownLoadAddressOut)
 
 		initialize.GatewayGenerateUUID()

@@ -3,6 +3,7 @@ package oplocal
 import (
 	"oplian/define"
 	"oplian/service/pb"
+	"path/filepath"
 	"sync"
 	"time"
 )
@@ -110,7 +111,6 @@ func (s SealSectorDisk) Remove(sector string) {
 	delete(s, sector)
 }
 
-
 type DiskSealCount map[string]map[string]bool
 
 var dscLock sync.RWMutex
@@ -121,7 +121,7 @@ func (d DiskSealCount) Get(path string) int {
 	return len(d[path])
 }
 
-func (d DiskSealCount) GetRun(path string, sector string) int {
+func (d DiskSealCount) GetRun(path string, sector string, ssize uint64) int {
 	dscLock.RLock()
 	defer dscLock.RUnlock()
 	count := 0
@@ -130,7 +130,7 @@ func (d DiskSealCount) GetRun(path string, sector string) int {
 		if sector == sect {
 			continue
 		}
-		if run {
+		if run && define.CacheFile.ProgressP1(filepath.Join(path, "/cache", sect), ssize) > 40 {
 			count++
 		}
 	}
