@@ -1,0 +1,85 @@
+syntax = "proto3";
+option go_package = "./;pb";
+import "service/proto/header.proto";
+
+message batchUnsealed{
+  repeated hostParam host = 10;
+  string gateId = 20;
+}
+
+message CarWorkerTaskNoInfo{
+  uint64 Id = 10;
+  uint64 TaskId = 11;
+  string MinerId = 1;
+  string WorkerIp = 2;
+  string CarNo = 3;
+  string InputDir = 4;
+  string OutputDir = 5;
+  string WalletAddr = 6;
+  uint64 StartNo = 7;
+  uint64 EndNo = 8;
+  uint64 TaskStatus = 9;
+}
+
+message CarWorkerTaskDetailInfo{
+
+  uint64 Id = 10;
+  uint64 TaskId = 1;
+  string TaskName = 2;
+  string DealExpireDate = 3;
+  string CarName = 4;
+  string PieceCid = 5;
+  uint64 PieceSize = 6;
+  uint64 CarSize = 7;
+  string DataCid = 8;
+  string MinerId = 9;
+  string WalletAddr = 11;
+  uint64 TaskStatus = 12;
+  string WorkerIp = 13;
+  string DealId = 14;
+  string SectorId = 16;
+  string CarOutputDir = 17;
+  string OriginalOpId = 18;
+  string OriginalDir = 19;
+  uint64 ValidityDays = 20;
+
+}
+
+message RandInfo{
+  uint64 NumberIndex = 1;
+  uint64 Number = 2;
+}
+
+message WorkerCarParam{
+
+  uint64 Id = 1;
+  string MinerId = 2;
+  string WorkerIp = 3;
+  string PieceCID = 4;
+  string SectorId = 5;
+  uint64 TaskType = 6;
+
+}
+
+message RandList{
+  repeated RandInfo randInfo = 1;
+}
+
+message CarWorkerTaskDetailList{
+  repeated CarWorkerTaskDetailInfo carWorkerTaskDetailInfo = 1;
+}
+
+message CarFiles {
+  uint64  RelationId = 10;
+  string FileName = 20;
+  uint64 FileIndex = 30;
+  string FileStr = 40;
+  string CarFileName = 50;
+  string PieceCid = 60;
+  uint64 PieceSize = 70;
+  uint64 CarSize = 80;
+  string DataCid = 90;
+  string InputDir = 100;
+  string MinerId = 110;
+
+}

@@ -1,0 +1,306 @@
+syntax = "proto3";
+option go_package = "./;pb";
+import "google/protobuf/empty.proto";
+import "service/proto/header.proto";
+
+message ResponseWorkerConfigList{
+  repeated ResponseWorkerConfig configList = 10;
+}
+message ResponseWorkerConfig{
+  string OpId = 10;
+  string MinerId = 20;
+  int32 PreCount1 = 30;
+  int32 PreCount2 = 40;
+  string IP = 50;
+  string Port = 60;
+}
+
+message ResponseTaskList{
+  repeated WorkerTask workerList = 10;
+}
+message RequestMinerId{
+  string minerId = 10;
+}
+message RequestWorkerId{
+  string minerId = 10;
+  string workerId = 20;
+}
+message RequestWorkerList{
+  string minerId = 10;
+  repeated WorkerTask workerList = 20;
+}
+message WorkerTask{
+  string workerId = 10;
+  string preCount = 20;
+  string ip = 30;
+  string port = 40;
+}
+
+message Downtown{
+  string opId = 1;  //预留字段
+  string url = 2;    //下载路径
+  string path = 3;  //存储路径
+}
+message DownloadInfo {
+  uint64 Load = 10;
+  uint64 Total = 20;
+  string FilePath = 30;
+  string Url = 40;
+}
+
+message ResponseTime{
+  int32 second = 1;  //预留字段
+}
+
+message HostInfo {
+  string IntranetIP = 1;
+  string InternetIP = 2;
+  string UUID = 3;
+  string DeviceSN = 4;
+  string HostManufacturer = 5;
+  string HostModel = 6;
+  string OperatingSystem = 7;
+  int64 CPUCoreNum = 8;
+  string CPUModel = 9;
+  int64 MemorySize = 10;
+  int64 DiskNum = 11;
+  float DiskSize = 12;
+  string ServerDNS = 13;
+  string SubnetMask = 14;
+  string Gateway = 15;
+  string GatewayId = 16;
+  string SystemVersion = 17;
+  int64 SystemBits = 18;
+  int64 GPUNum = 19;
+  string HostName = 20;
+  bool IsGroupArray = 21;
+  int64 HostClassify = 22;
+}
+
+message HostMonitorInfo {
+  string HostUUID = 1;
+  float CPUUseRate = 2;
+  float DiskUseRate = 3;
+  float MemoryUseRate = 4;
+  string GPUUseInfo = 5;
+  string CPUTemperature = 6;
+  string DiskSize = 7;
+  string DiskUseSize = 8;
+  int64 MemorySize = 9;
+  int64 MemoryUseSize = 10;
+}
+
+message UpdateHostTestInfo {
+  int64 TestBeginAt = 1;
+  string HostUUID = 2;
+  int64 TestResult = 3;
+  string CPUHardInfo = 4;
+  int64 CPUHardScore = 5;
+  string GPUHardInfo = 6;
+  int64 GPUHardScore = 7;
+  string MemoryHardInfo = 8;
+  int64 MemoryHardScore = 9;
+  string DiskHardInfo = 10;
+  int64 DiskHardScore = 11;
+  string NetTestInfo = 12;
+  int64 NetTestScore = 13;
+  string GPUTestInfo = 14;
+  int64 GPUTestScore = 15;
+  int64 DiskIO = 16;
+  string DiskAllRate = 17;
+  int64 DiskAllRateScore = 18;
+  string DiskNFSRate = 19;
+  int64 DiskNFSRateScore = 20;
+  string DiskSSDRate = 21;
+  int64 DiskSSDRateScore = 22;
+  int64 TestType = 23;
+  bool IsAddPower = 24;
+  string SelectHostUUIDs = 25;
+  string SelectHostIPs = 26;
+}
+
+message UpdateHostPatrolInfo {
+  int64 PatrolBeginAt = 1;
+  string HostUUID = 2;
+  int64 PatrolResult = 3;
+  bool DiskIO = 4;
+  string DiskIODuration = 5;
+  bool HostIsDown = 6;
+  string HostIsDownDuration = 7;
+  bool HostNetStatus = 8;
+  string HostNetDuration = 9;
+  bool LogInfoStatus = 10;
+  string LogInfoDuration = 11;
+  bool LogOvertimeStatus = 12;
+  string LogOvertimeDuration = 13;
+  bool WalletBalanceStatus = 14;
+  float WalletBalance = 15;
+  string WalletBalanceDuration = 16;
+  bool LotusSyncStatus = 17;
+  string LotusSyncDuration = 18;
+  bool GPUDriveStatus = 19;
+  string GPUDriveDuration = 20;
+  bool PackageVersionStatus = 21;
+  string PackageVersion = 22;
+  string PackageVersionDuration = 23;
+  bool DataCatalogStatus = 24;
+  string DataCatalogDuration = 25;
+  bool EnvironmentVariableStatus = 26;
+  string EnvironmentVariableDuration = 27;
+  bool BlockLogStatus = 28;
+  string BlockLogDuration = 29;
+  bool TimeSyncStatus = 30;
+  string TimeSyncDuration = 31;
+  bool PingNetStatus = 32;
+  string PingNetDuration = 33;
+}
+
+message CloseHostTestInfo {
+  int64 TestBeginAt = 1;
+  string HostUUID = 2;
+  int64 TestResult = 3;
+}
+
+message UpdateHostTestClose {
+  int64 ID = 1;
+  int64 TestBeginAt = 2;
+  string HostUUID = 3;
+  int64 TestResult = 4;
+}
+
+message UpdateHostNet {
+  string HostUUIDs = 1;
+}
+
+service GateService{
+  rpc GatewayFileExist (String) returns (Bool){}
+  rpc OpOnline (String) returns (Bool){}
+  rpc OpConnect (RequestConnect) returns (String){}
+  rpc OpHeartbeat (String) returns ( google.protobuf.Empty){}
+  rpc OplianHeartbeat (String) returns (google.protobuf.Empty){}
+  rpc GetWorkerList (RequestMinerId) returns (WorkerList){}
+  rpc StrategyProcess (StrategyInfo) returns (ResponseMsg){}
+  rpc ExecuteScript (ScriptInfo) returns (String){}
+  rpc FileDistribution (ScriptInfo) returns (String){}
+  rpc FileSynOpHost (FileSynOp) returns (String){}
+  rpc DownloadSnapshot (Downtown) returns (DownloadInfo){}
+  rpc AddLotus (LotusInfo) returns (google.protobuf.Empty){}
+  rpc GetWalletList (RequestOp) returns (WalletList){}
+  rpc GetRoomWalletList (RequestOp) returns (WalletList){}
+  rpc AddMiner (MinerInfo) returns (ResponseMsg){}
+  rpc UpdateLotus (ConnectInfo) returns (google.protobuf.Empty){}
+  rpc AddHostRecord (HostInfo) returns (google.protobuf.Empty){}
+  rpc UpdateMiner (ConnectInfo) returns (google.protobuf.Empty){}
+  rpc UpdateWorker (ConnectInfo) returns (google.protobuf.Empty){}
+  rpc UpdateStorage (ConnectInfo) returns (google.protobuf.Empty){}
+  rpc UpdateBoost (ConnectInfo) returns (google.protobuf.Empty){}
+  rpc AddWorker (batchWorker) returns (google.protobuf.Empty){}
+  rpc AddStorage (batchStroage) returns (google.protobuf.Empty){}
+  rpc RunStopService (RunStop) returns (google.protobuf.Empty);
+  rpc AddBoost (BoostInfo) returns (google.protobuf.Empty);
+  rpc FileOpSynGateWay (AddFileInfo) returns (ResponseMsg);
+  rpc AddGateWayFile (FileInfo) returns (ResponseMsg);
+  rpc SysFilePoint (SynFileInfo) returns (ResponseMsg);
+  rpc ClearWorker (RequestOp) returns (ResponseMsg);
+  rpc DownLoadFiles (DownLoadInfo) returns (ResponseMsg);
+  rpc AddHostMonitorRecord (HostMonitorInfo) returns (google.protobuf.Empty){}
+  rpc SetWorkerTask (WorkerConfig) returns (ResponseMsg){}
+  rpc DelGateWayFile (FileInfo) returns (ResponseMsg);
+  rpc DelOpFile (FileInfo) returns (ResponseMsg);
+  rpc LotusHeight (RequestOp) returns (LotusHeightInfo);
+  rpc ModifyFileStatus (FileManage) returns (ResponseMsg);
+  rpc CompleteCommit2(FileInfo) returns (ResponseMsg);
+  rpc ModifySectorStatus (TaskStatus) returns (String);
+  rpc AddWarn (WarnInfo) returns (ResponseMsg);
+  rpc AddBadSector (BadSectorId) returns (ResponseMsg);
+  rpc OpFileToGateWay (AddFileInfo) returns (ResponseMsg);
+  rpc CheckOpPath (DirFileReq) returns (ResponseMsg);
+  rpc CarFilePath (CarFile) returns (CarFile);
+  rpc HostType (String) returns (String);
+  rpc CarFileList (SectorID) returns (CarArray);
+  rpc ModifyOnlineFile (AddFileInfo) returns (ResponseMsg);
+  rpc RestartMiner (MinerRun) returns (google.protobuf.Empty);
+  rpc GetFileName (FileNameInfo) returns (String);
+  rpc SetJobPlatformStop (JobPlatform) returns (String);
+  rpc ScriptStop (ScriptInfo) returns (String);
+  rpc C2FileSynStatus (C2SectorID) returns (String){}
+  rpc C2FileSynLotus (FileInfo) returns (String){}
+  rpc GetC2WorkerInfo (String) returns (String){}
+  rpc GetGateWayFile (String) returns (String);
+  rpc RunOpC2 (String) returns (String);
+  rpc StopOpC2 (String) returns (String);
+  rpc WorkerMountNFS (OpHostUUID) returns (google.protobuf.Empty){}
+  rpc RedoC2Task (String) returns (String);
+  rpc CarFileParam (String) returns (CarInfo);
+
+  //task
+  rpc OpInformationTest (HostTestInfo) returns (String);
+  rpc UpdateSectorStatus (SectorStatus) returns (ResponseMsg);
+  rpc AddSectorTicket (SectorTicket) returns (ResponseMsg);
+  rpc AddSectorCommDR (SectorCommDR) returns (ResponseMsg);
+  rpc AddSectorWaitSeed (SectorSeed) returns (ResponseMsg);
+  rpc AddSectorCommit2 (SectorProof) returns (ResponseMsg);
+  rpc AddSectorPreCID (SectorCID) returns (ResponseMsg);
+  rpc AddSectorCommitCID (SectorCID) returns (ResponseMsg);
+  rpc UpdateHostTestRecord (UpdateHostTestInfo) returns (google.protobuf.Empty){}
+  rpc OpInformationPatrol (HostPatrolInfo) returns (String);
+  rpc UpdateHostPatrolRecord (UpdateHostPatrolInfo) returns (google.protobuf.Empty){}
+  rpc CloseOpInformationTest (CloseHostTest) returns (String){}
+  rpc RestartAddHostTest (RestartHostTest) returns (String){}
+  rpc GetOpHardwareInfo (OpHardwareInfo) returns (String){}
+  rpc Commit2TaskResult (SectorID) returns (String){}
+  rpc GetHostGroupArray (OpHostUUID) returns (HostGroupArray){}
+  rpc CreateSectorTable (Actor) returns (google.protobuf.Empty);
+  rpc CreateSectorPieceTable (Actor) returns (google.protobuf.Empty);
+  rpc CreateSectorLogTable (Actor) returns (google.protobuf.Empty);
+  rpc CreateSectorQueueDetailTable (Actor) returns (google.protobuf.Empty);
+  rpc AddSectorPiece (SectorPiece) returns (ResponseMsg);
+  rpc AddSectorLog (SectorLog) returns (ResponseMsg);
+  rpc RedoSectorsTask (String) returns (ResponseMsg);
+  rpc UpdateSectorLog (SectorLog) returns (ResponseMsg);
+  rpc StateMinerInfo(FilParam) returns (ActorWallet);
+  rpc StateAccountKey(FilParam) returns (String);
+  rpc WalletBalance(FilParam) returns (Wallet);
+  rpc GetRunningCount (OpTask) returns (TaskCount);
+  rpc GetRunningList (OpTask) returns (TaskInfoList);
+  rpc GetStorageByActor (String) returns (LinkList);
+  rpc GetActorTaskQueue (String) returns (TaskQueues);
+  rpc AddCompleteCountByID (TaskQueue) returns (google.protobuf.Empty);
+  rpc AddRunCountByID (TaskQueue) returns (google.protobuf.Empty);
+  rpc AddSectorQueueDetail(SectorQueueDetail) returns (google.protobuf.Empty);
+  rpc GetWaitImportDeal (dealParam) returns (dealList);
+  rpc EditQueueDetailStatus (EditStatus) returns (google.protobuf.Empty);
+  rpc UpdateHostNetOccupyTime (UpdateHostNet) returns (google.protobuf.Empty);
+  rpc AddC2Task(SectorID) returns(String);
+  rpc DelC2Task(SectorID) returns(String);
+  rpc QueryAsk(QueryParam) returns (AskInfo);
+  rpc QueryDataCap(QueryParam) returns (String);
+  rpc CheckOpIsOnline (OpHostUUID) returns (String);
+  rpc SealingSchedDiag(FilParam) returns (SchedDiagRequestInfo);
+  rpc SectorStorage(SectorActorID) returns (SectorPaths);
+  rpc AddColony(Colony) returns (Colony);
+  rpc GetColony(Actor) returns (Colony);
+  rpc StateMinerSectorCount(FilParam) returns (MinerSectors);
+  rpc SealingAbort (resetWorker) returns (google.protobuf.Empty);
+  rpc GetSectorStatus(SectorID) returns (SectorStatus);
+  rpc opLocalSectors(OpMiner) returns (sectorCount);
+  rpc StateMinerPower(FilParam) returns (Power);
+  rpc GetHostInfoByIPAndGatewayId (RequestOp) returns (OpHostUUID){}
+  rpc GetHostTypeAndStatus (String) returns (HostRestartInfo){}
+  rpc CheckLotusHeart (String) returns (String){}
+  rpc CheckMinerHeart (String) returns (String){}
+  rpc CheckOWorkerHeart (String) returns (String){}
+  rpc GetOpMonitorInfo (OpHardwareInfo) returns (MonitorInfo){}
+  rpc GetOpScriptInfo (OpScriptInfo) returns (OpScriptInfoResp){}
+  rpc GetDiskLetter (DiskLetterReq) returns (OpScriptInfoResp){}
+  rpc GetOpMountInfo (DiskLetterReq) returns (OpMountDiskList){}
+  rpc GetOpLogInfo (OpLogInfoReq) returns (OpLogInfoResp){}
+  rpc GetOpLogLen (OpLogInfoReq) returns (OpLogLenResp){}
+  rpc GetNodeMinerInfo (OpHardwareInfo) returns (NodeMinerInfoResp){}
+  rpc DiskReMounting (DiskReMountReq) returns (String){}
+  rpc GetMinerToken (String) returns (String){}
+
+
+
+
+}

@@ -1,0 +1,8 @@
+syntax = "proto3";
+option go_package = "./;pb";
+import "service/lotus/proto/header.proto";
+
+service OpC2Service{
+  rpc Heartbeat (String) returns (String);
+  rpc Commit2TaskRun (SealerParam) returns (ResponseMsg){}
+}

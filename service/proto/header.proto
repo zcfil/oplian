@@ -1,0 +1,890 @@
+syntax = "proto3";
+option go_package = "./;pb";
+import "google/protobuf/timestamp.proto";
+message ResponseMsg{
+  int32 code = 10;
+  string msg = 20;
+}
+
+message String{
+  string value = 1;
+}
+
+message Bool{
+  bool value = 1;
+}
+
+message SectorPaths{
+  repeated String strs = 1;
+}
+
+message WorkerList{
+  string OpId = 10;
+  repeated OpenWindow workers = 20;
+}
+
+message OpenWindow{
+  string ip = 10;
+  string workerId = 30;
+  bool runC2 = 40;
+  bool storage = 50;   //是否存储worker
+  bool disconnect = 60;   //是否离线
+}
+message Task {
+  string  Tid = 1;
+  string  Ip = 10;
+  string  Wid = 20;
+  uint64  SectorId = 30;
+  uint64  sectorSize = 31;
+  string  MinerId = 40;
+  string  TType = 50;
+  google.protobuf.Timestamp StartTime = 60;
+  string CarPath = 70;
+}
+message TaskList{
+  repeated Task tasks = 10;
+}
+message LotusInfo{
+  uint64 lotusId = 7;
+  string GateId = 8;
+  string OpId = 9;
+  string Ip = 10;
+  int32 SecpCount = 30;
+  int32 BlsCount = 40;
+  int32 ImportMode = 50;  //0拷贝，1导入,2正常运行
+  string fileName = 51;  //快照或者高度文件名称
+  int32 walletNewMode = 60;  //0创建，1拷贝
+  bool reRaid = 61;  //是否组raid
+  repeated OpWallet wallets = 70;
+}
+message OpWallet{
+  string opId = 1;
+  string address = 2;
+}
+message OpMiner{
+  string opId = 10;
+  string miner = 20;
+}
+
+message Wallet{
+  string opId = 9;
+  string address = 10;
+  double balance = 20;
+}
+message WalletList{
+  repeated Wallet wallets = 1;
+}
+
+message RequestOp{
+  string gateId = 10;
+  string opId = 20;
+  string token = 30;
+  string ip = 40;
+}
+
+message RequestConnect{
+  string port = 10;
+  string token = 20;
+  string opId = 30;
+  string ip = 40;
+}
+
+message ConnectInfo{
+  uint64 id = 9;
+  string ip = 10;
+  string token = 30;
+  int32 deployStatus = 40;
+  int32 syncStatus = 41;
+  int32 runStatus = 42;
+  string actor = 50;
+  string errMsg = 60;
+}
+
+
+message MinerInfo{
+  uint64 minerId = 9;
+  int32 addType = 10;
+  string opId = 20;
+  uint64 lotusId = 30;
+  string Ip = 31;
+  string actor = 33;
+  string lotusToken = 34;
+  string partitions = 35;
+  string lotusIp = 36;
+  string owner = 40;
+  bool isManage = 50;
+  bool isWdpost = 60;
+  bool isWnpost = 70;
+  uint64 sectorSize = 80;
+  bool reRaid = 90;
+  int32 storageType = 100;  //存储类型1:nfs，0：worker
+}
+message MinerRun{
+  string Ip = 1;
+  string actor = 2;
+  string lotusToken = 3;
+  string partitions = 4;
+  bool isManage = 5;
+  bool isWdpost = 6;
+  bool isWnpost = 7;
+  string lotusIp = 10;
+  string opId = 11;
+}
+
+message WorkerInfo{
+  uint64 id = 9;
+  string ip = 30;
+  string minerToken = 50;
+  string minerIp = 51;
+}
+
+message StorageInfo{
+  string mountDir = 1;
+  string nodeIp = 2;
+  string storageIp = 3;
+}
+
+message hostParam {
+  uint64 id = 1;
+  string ip = 10;
+  string opId = 20;
+}
+
+message batchWorker{
+  repeated hostParam host = 10;
+  uint64 minerId = 30;   //节点号
+  string gateId = 40;
+}
+
+message batchStroage{
+  repeated hostParam host = 9;
+  int32 storageType = 20; //1NFS,0 worker
+  string node = 30;   //节点号
+  string gateId = 40;
+}
+
+message BoostInfo{
+  uint64 id = 9;
+  string lanIp = 10;
+  string lanPort = 20;
+  string internetIp = 30;
+  string internetPort = 40;
+  string gateId = 41;
+  string opId = 42;
+  uint64 minerId = 49;
+  string minerToken = 50;
+  string minerIp = 51;
+  string actor = 55;
+  uint64 lotusId = 59;
+  string lotusToken = 60;
+  string lotusIp = 61;
+  string workerWallet = 70;
+  int32 networkType = 80;
+  string dcQuotaWallet = 90;
+}
+
+message StrategyInfo{
+  string GateWayId = 1;
+  string OpId = 2;
+  string strategiesId = 3;
+  string RoomId = 4;
+}
+
+message WarnInfo {
+  string WarnId = 1;
+  string WarnName = 2;
+  int32 WarnType = 3;
+  string ComputerId = 4;
+  string WarnInfo = 5;
+  string ComputerRoomId = 6;
+}
+
+message RunStop{
+  uint64 id = 1;
+  bool isRun = 2;
+  string opId = 3;
+  int32 serviceType = 4; //服务类型：1lotus,2miner,3任务worker,4存储worker
+  uint64 linkId = 5;
+}
+
+message RunStopType{
+  int32 serviceType = 1; //服务类型：1lotus,2miner,3任务worker,4存储worker
+  bool isRun = 2;
+}
+
+message OpUndone{
+  string opId = 10;
+  int32 undone = 20;
+}
+message AddFileInfo{
+
+  int64 FileType = 1;
+  int64 AddType = 2;
+  string GateWayId = 3;
+  string OpId = 4;
+  string FileUrl = 5;
+  string Ip = 6;
+  string Port = 7;
+  string  FromPath = 8;
+  string  ToPath = 9;
+  string ZipFileName = 10;
+  string Id = 11;
+  string FileName = 15;
+  string RoomId = 18;
+  string RoomName = 19;
+  bytes FileData = 20;
+  repeated FileInfo fileInfo = 12;
+}
+
+message FileInfo{
+  string Path = 1;
+  string FileName = 2;
+  bytes FileData = 3;
+  int64 FileSize = 4;
+  string OpId = 5;
+  uint64 Miner = 6;
+  uint64 Number = 8;
+  string Host = 10;
+  int64 FileType = 20;
+  string TimeLength = 30;
+  int64 TaskStatus = 40;
+}
+
+message SynFileInfo {
+  string  FromPath = 1;
+  string  ToPath = 2;
+  string GateWayId = 3;
+  string OpId = 4;
+  string ToOpId = 5;
+  string Ip = 6;
+  string Port = 7;
+  int64 IsDelete = 10;
+  repeated FileInfo fileInfo = 8;
+  string ZipFileName = 12;
+}
+
+message DownLoadInfo {
+  string GateWayId = 1;
+  repeated OpInfo opInfo = 2;
+  repeated FileInfo fileInfo = 3;
+  string DownloadPath = 4;
+  string GateWayPath = 5;
+}
+
+message OpInfo{
+  string Ip = 1;
+  string Port = 2;
+  bool  GpuUse = 10;
+  bool  Disconnect = 20;
+  string OpId = 30;
+}
+
+message WorkerConfig{
+  string opId = 10;
+  uint64 id = 20;
+  int32 PreCount1 = 30;
+  int32 PreCount2 = 40;
+}
+
+message HostTestInfo{
+  int64 TestType = 1;
+  string HostUUID = 2;
+  int64 TestMode = 3;
+  int64 TestBeginAt = 4;
+  bool IsAddPower = 5;
+  string HostUUIDs = 6;
+  string HostIPs = 7;
+}
+
+message HostCheckDiskInfo{
+  string GateWayId = 1;
+  string HostUUID = 2;
+}
+
+message SectorID{
+  string Miner = 10;
+  uint64 Number = 20;
+  string PieceCid = 30;
+}
+
+message SectorList{
+  repeated SectorID sectors = 1;
+}
+
+message SectorStatus{
+  SectorID sector = 10;
+  string status = 20;
+  int32 type = 30;
+  uint64 size = 40;
+}
+
+message sectorCount{
+  repeated statusCount sectors = 10;
+}
+
+message statusCount{
+  string status = 10;
+  int32 count = 20;
+  int32 store = 30;
+  int32 preMsg = 40;
+}
+
+message SectorTicket{
+  SectorID sector = 10;
+  uint64 ticketH = 20;
+  string ticket = 30;
+  string status = 40;
+}
+
+message SectorPiece{
+  SectorID sector = 10;
+  uint64 DealId = 20;
+  string PieceCid = 30;
+  uint64 PieceSize = 40;
+}
+
+message SectorLog{
+  string ID = 9;
+  SectorID sector = 10;
+  string sectorStatus = 20;
+  string workerId = 30;
+  string workerIp = 40;
+  string errorMsg = 50;
+  google.protobuf.Timestamp finishAt = 60;
+}
+
+message SectorCommDR{
+  SectorID sector = 10;
+  string commD = 20;
+  string commR = 30;
+  string status = 40;
+}
+
+message SectorSeed{
+  SectorID sector = 10;
+  uint64 seedH = 20;
+  string seed = 30;
+  string status = 40;
+}
+
+message SectorProof{
+  SectorID sector = 10;
+  string proof = 20;
+  string status = 30;
+}
+
+message SectorPath {
+  SectorID Id = 10;
+  string storeId = 12;
+  string DiskPath = 15;
+  string Unsealed = 20;
+  string Sealed = 30;
+  string Cache = 40;
+  string Update = 50;
+  string UpdateCache = 60;
+}
+
+message SectorCID{
+  SectorID sector = 10;
+  string cid = 20;
+  string status = 30;
+}
+
+message LotusHeightInfo{
+  int64 Height = 20;
+}
+
+message HostPatrolInfo{
+  int64 HostClassify = 1;
+  string HostUUID = 2;
+  int64 PatrolMode = 3;
+  int64 PatrolBeginAt = 4;
+  string PatrolHostIP = 5;
+}
+
+message CloseHostTest{
+  int64 ID = 1;
+  string HostUUID = 2;
+  int64 TestType = 3;
+  string SelectHostUUIDs = 4;
+}
+
+message RestartHostTest{
+  int64 ID = 1;
+  string HostUUID = 2;
+  int64 TestBeginAt = 3;
+  int64 HostClassify = 4;
+}
+
+message FileManage {
+  int64 Id = 10;
+  int64 FileSize = 20;
+}
+
+message OpHardwareInfo{
+  int64 HostClassify = 1;
+  string HostUUID = 2;
+}
+
+message SectorRef {
+  SectorID Id = 10;
+  uint64 ProofType = 20;
+  bool   preAfter = 30;
+  string opId = 50;
+}
+
+message SealerParam{
+  SectorRef Sector = 10;
+  bytes Phase1Out = 20;
+  uint64 Status = 30;
+  string opId = 50;
+  string opC2Id = 60;
+  string Host = 70;
+  string OpMainDisk = 80;
+  string GateWayMainDisk = 90;
+  string SealPort = 100;
+}
+
+message FileDirInfo {
+  string OpId = 10;
+  string FileDirPath = 20;
+}
+
+message OpC2Client {
+  repeated OpInfo opInfo = 10;
+}
+
+message OpHostUUID{
+  string HostUUID = 1;
+  string HostType = 2;
+}
+
+message HostGroupArray{
+  bool IsGroupArray = 1;
+}
+
+message Actor{
+  string minerId = 10;
+}
+
+message QueryParam{
+  string param = 20;
+  string lotusIp = 30;
+  string lotusToken = 32;
+}
+
+message SectorRefTask {
+  SectorID Id = 10;
+  uint64 ProofType = 20;
+  bytes Ticket = 60;
+  uint64 SectorSize = 80;
+  uint64 TaskDetailId = 90;
+  uint64 SectorRecoverId = 100;
+  string  PieceCid = 110;
+  int64  PieceSize = 120;
+}
+
+message SectorsTask {
+  repeated SectorRefTask sectorRefTask = 10;
+  uint64 WorkerTaskNum = 20;
+  uint64 SectorType = 30;
+  uint64 SectorSize = 50;
+  string WorkerOpId = 90;
+  string WorkerOpIp = 100;
+  string WorkerOpPort = 110;
+  string StorageOpIp = 60;
+  string OriginalValueOpId = 70;
+  string OriginalValueDir = 80;
+  repeated FileInfo fileInfo = 120;
+
+}
+
+message DirFileReq {
+  string OpId = 10;
+  string Path = 20;
+  string FileName = 30;
+}
+
+message ResDirFile{
+  repeated DirFile dirFile = 10;
+}
+
+message DirFile {
+  string Path = 10;
+  uint64 FileNum = 20;
+}
+
+message FilParam{
+  string token = 10;
+  string ip = 20;
+  string param = 30;
+  string opid = 40;
+}
+
+message SectorActorID{
+  string token = 10;
+  string ip = 20;
+  uint64 miner = 30;
+  uint64 Number = 40;
+}
+
+message LinkList{
+  repeated FilParam Links = 10;
+  int32 storageType = 20; //1NFS,0worker
+}
+
+message ActorWallet{
+  string owner = 10;
+  string worker = 20;
+  repeated string control = 30;
+}
+
+message TaskCount{
+  int32 TCount = 10;
+  string TType = 20;
+}
+
+message OpTask{
+  string OpId = 10;
+  string TType = 20;
+}
+message TaskInfo{
+  string ip = 9;
+  string opId = 10;
+  string TType = 20;
+  int32 progress = 30;
+  string minerId = 40;
+  string timeLength = 50;
+  uint64 sectorId = 60;
+  uint64 sectorSize = 70;
+}
+message TaskInfoList{
+  repeated TaskInfo tasks = 20;
+}
+message TaskQueues{
+  repeated TaskQueue queues = 10;
+}
+message TaskQueue{
+  uint64 ID = 10;
+  int32 runCount = 20;
+  int32 completeCount = 30;
+  int32 jobTotal = 40;
+  int32 sectorType = 50;
+  string actor = 59;
+  string minerToken = 60;
+  string minerIp = 70;
+  int32 concurrentImport = 80;
+}
+message OpFilePath{
+  string Ip = 10;
+  uint64 SectorSize = 20;
+}
+
+message TaskStatus{
+  uint64 TaskDetailId = 10;
+  uint64 SectorRecoverId = 20;
+  uint64 Status = 30;
+}
+
+message BadSectorId{
+  string MinerId = 10;
+  uint64 SectorId = 20;
+  uint64 SectorSize = 30;
+  uint64 SectorType = 40;
+  string BelongingNode = 50;
+  string SectorAddress = 60;
+  uint64 AddType = 80;
+}
+
+message PledgeParam{
+  bool isManage = 10;
+  string actor = 20;
+  int32 apCount = 30;
+  OpenWindow info = 40;
+}
+
+message SectorQueueDetail{
+  SectorID sid = 10;
+  int32 runIndex = 20;
+  uint64 queueId = 21;
+  int32 sectorStatus = 30;
+}
+
+message CarFile {
+  string OpId = 10;
+  string Path = 20;
+  string FileName = 30;
+}
+
+message CarArray{
+  repeated CarInfo carInfo = 10;
+}
+
+message CarInfo{
+  string  FileName = 10;
+  string  PieceCid = 20;
+  int64  PieceSize = 30;
+  string FileStr = 40;
+  string InPutDir = 50;
+  int64 CarSize = 60;
+  string DataCid = 70;
+}
+
+message dealParam{
+  uint64  queueId = 10;
+  string  actor = 20;
+  int32  count = 30;
+}
+
+message dealInfo{
+  uint64 id = 10;
+  string carOpId = 20;
+  string carPath = 30;
+  string dealUuid = 40;
+  string pieceCid = 50;
+}
+
+message dealList{
+  repeated dealInfo deals = 10;
+}
+
+message EditStatus{
+  uint64 id = 10;
+  string actor = 11;
+  int32 status = 20;
+}
+
+message FileNameInfo{
+  string GateWayId = 10;
+  int64 FileType = 20;
+}
+
+message FileSynOp {
+  uint64 Id = 10;
+  int64  TimeLength = 20;
+  int64  Enable = 30;
+  int64  LimitSpeed = 40;
+  string FilePath = 50;
+  int64 SendType = 60;
+  string TimeOut = 80;
+  repeated FileInfo fileInfo = 70;
+}
+
+message StopTask{
+  string TaskStatus = 10;
+  string TaskTime = 20;
+}
+
+message JobPlatform{
+  bool IsStop = 10;
+}
+
+message ScriptInfo {
+  string GateWayId = 1;
+  string OpId = 2;
+  string Script = 3;
+  string ResMsg = 4;
+  string Path = 5;
+  bytes FileData = 6;
+  string FileName = 7;
+  int64 OpStatus = 8;
+  int64 TimeLength = 9;
+}
+
+message MountDiskInfo {
+  string opIP = 1;
+  string opDir = 2;
+}
+
+message WorkerTasks{
+  OpenWindow info = 30;
+  repeated Task tasks = 40;
+}
+message PreNumber{
+  int32 P1 = 10;
+  int32 P2 = 20;
+}
+
+message C2SectorID{
+  uint64 Id = 50;
+  string Miner = 10;
+  uint64 Number = 20;
+  uint64 ResType = 30;
+}
+
+message ProofC2{
+  string Miner = 10;
+  uint64 Number = 20;
+  uint64 bytes = 30;
+}
+
+message AskInfo{
+  string Price = 10;
+  string VerifiedPrice = 20;
+  uint64 MinPieceSize = 30;
+  uint64 MaxPieceSize = 40;
+  string Miner = 50;
+}
+
+message SchedDiagInfo{
+  uint64 SectorID = 10;
+  string TaskType = 20;
+  int32 Priority = 30;
+  string SchedId = 40;
+}
+
+message SchedDiagRequestInfo{
+  repeated SchedDiagInfo Requests = 10;
+}
+
+message Colony{
+  uint64 ID = 10;
+  int32 colonyType = 20; //1 NFS,2 worker
+  string colonyName = 30; //1 NFS,2 worker
+}
+
+message MinerSectors{
+  uint64 Live = 1;
+  uint64 Active = 2;
+  uint64 Faulty = 3;
+}
+
+message Power{
+  string MinerPower = 1;
+  string TotalPower = 2;
+}
+
+message resetWorker{
+  uint64 id = 1;
+  uint64 linkId = 2;
+  string opId = 3;
+  string ip = 4;
+}
+
+message FilRestWorker{
+  resetWorker worker = 1;
+  FilParam host = 2;
+  FilParam newHost = 3;
+}
+
+message ReplaceFile{
+  string FileName = 1;
+  uint64 ProductId = 2;
+  string DownloadUrl = 3;
+}
+
+message ReplaceFileInfo{
+  string FileName = 1;
+  uint64 ProductId = 2;
+  string DownloadUrl = 3;
+}
+
+message OpReplaceFileInfo{
+  string fileName = 10;
+  repeated ReplaceInfo fileInfo = 20;
+}
+
+message ReplaceInfo{
+  string system = 1;
+  string fileMd5 = 2;
+}
+
+message HostRestartInfo{
+  repeated RestartInfo info = 1;
+}
+
+message RestartInfo{
+  string opType = 1;
+  uint64 opStatus = 2;
+}
+
+message TaskCan{
+  int32 canAp = 10;
+  int32 canP1 = 20;
+  int32 canP2 = 30;
+  repeated sectorPathCan sectors = 35;
+  repeated string cars = 50;
+}
+
+message sectorPathCan{
+  uint64 number = 10;
+  int32 canCount = 20;
+}
+
+message minerSize{
+  string actor = 10;
+  uint64 sectorSize = 20;
+}
+
+message MonitorInfo{
+  bool lotusStatus  = 1;
+  bool minerStatus  = 2;
+  bool boostStatus  = 3;
+  bool workerStatus  = 4;
+  float cpuUseRate  = 5;
+  string sysDiskUseRate  = 6;
+  string sysDiskLeave  = 7;
+  string mainDiskUseRate  = 8;
+  string mainDiskLeave  = 9;
+  bool diskStatus  = 10;
+  bool gpuStatus  = 11;
+  bool mountStatus  = 12;
+  bool nfsStatus  = 13;
+  string opId  = 14;
+  bool lotusHeightStatus  = 15;
+  repeated string ips = 16;
+}
+
+message OpScriptInfo{
+  int64 hostClassify = 1;
+  string hostUUID = 2;
+  string scriptInfo = 3;
+}
+
+message DiskReMountReq{
+  int64 hostClassify = 1;
+  string hostUUID = 2;
+  string actor = 3;
+  string nodeIP = 4;
+  string MountOpId = 5;
+}
+
+message OpScriptInfoResp{
+  string scriptResp = 1;
+}
+
+message DiskLetterReq{
+  string hostUUID = 1;
+  string diskLetter = 2;
+}
+
+message OpMountDiskList {
+  repeated string ips = 1;
+}
+
+message OpLogInfoReq {
+  int64 hostClassify = 1;
+  string hostUUID = 2;
+  string logType = 3;
+  int64 logBeginNum = 4;
+  int64 getNum = 5;
+}
+
+message OpLogInfoResp{
+  string logResp = 1;
+  int64 logBeginNum = 2;
+}
+
+message OpLogLenResp{
+  int64 logLenNum = 1;
+}
+
+message NodeMinerInfoResp{
+  string minerAttribute = 1;
+  bool minerProcessStatus = 2;
+  string winRemainingTime = 3;
+  bool messageOut = 4;
+  string proofRequiredTime = 5;
+  bool restartStatus = 6;
+  int64 dailyExplosiveNum = 7;
+}

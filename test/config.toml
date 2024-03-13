@@ -1,0 +1,151 @@
+ConfigVersion = 4
+SealerApiInfo = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.fTUFbsiDwtbwM_e2-3we-tTIsRuUwg-HU_5mHh_SAK8:/ip4/10.0.1.77/tcp/50003/http"
+SectorIndexApiInfo = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.fTUFbsiDwtbwM_e2-3we-tTIsRuUwg-HU_5mHh_SAK8:/ip4/10.0.1.77/tcp/50003/http"
+
+[API]
+  ListenAddress = "/ip4/0.0.0.0/tcp/1288/http"
+  RemoteListenAddress = ""
+  Timeout = "30s"
+
+[Backup]
+  DisableMetadataLog = false
+
+[Libp2p]
+  ListenAddresses = ["/ip4/10.0.1.196/tcp/55555", "/ip6/::/tcp/55555"]
+  AnnounceAddresses = ["/ip4/10.0.1.196/tcp/55555"]
+  NoAnnounceAddresses = []
+  DisableNatPortMap = false
+  ConnMgrLow = 150
+  ConnMgrHigh = 180
+  ConnMgrGrace = "20s"
+
+[Pubsub]
+  Bootstrapper = false
+  RemoteTracer = ""
+  JsonTracer = ""
+  ElasticSearchTracer = ""
+  ElasticSearchIndex = ""
+  TracerSourceAuth = ""
+
+[Storage]
+  ParallelFetchLimit = 10
+  StorageListRefreshDuration = "1h0m0s"
+  RedeclareOnStorageListRefresh = true
+
+[Dealmaking]
+  ConsiderOnlineStorageDeals = true
+  ConsiderOfflineStorageDeals = true
+  ConsiderOnlineRetrievalDeals = true
+  ConsiderOfflineRetrievalDeals = true
+  ConsiderVerifiedStorageDeals = true
+  ConsiderUnverifiedStorageDeals = true
+  PieceCidBlocklist = []
+  ExpectedSealDuration = "24h0m0s"
+  MaxDealStartDelay = "336h0m0s"
+  MaxProviderCollateralMultiplier = 2
+  MaxStagingDealsBytes = 50000000000
+  MaxStagingDealsPercentPerHost = 0
+  StartEpochSealingBuffer = 480
+  DealProposalLogDuration = "24h0m0s"
+  RetrievalLogDuration = "24h0m0s"
+  StalledRetrievalTimeout = "30m0s"
+  Filter = ""
+  RetrievalFilter = ""
+  BlockstoreCacheMaxShards = 20
+  BlockstoreCacheExpiry = "30s"
+  IsUnsealedCacheExpiry = "5m0s"
+  MaxTransferDuration = "24h0m0s"
+  RemoteCommp = false
+  MaxConcurrentLocalCommp = 1
+  HTTPRetrievalMultiaddr = ""
+  HttpTransferMaxConcurrentDownloads = 20
+  HttpTransferStallCheckPeriod = "30s"
+  HttpTransferStallTimeout = "5m0s"
+  BitswapPeerID = ""
+  BitswapPrivKeyFile = ""
+  DealLogDurationDays = 30
+  SealingPipelineCacheTimeout = "30s"
+  [Dealmaking.RetrievalPricing]
+    Strategy = "default"
+    [Dealmaking.RetrievalPricing.Default]
+      VerifiedDealsFreeTransfer = true
+    [Dealmaking.RetrievalPricing.External]
+      Path = ""
+
+[Wallets]
+  Miner = "t018147"
+  PublishStorageDeals = "t3vzb2e3eko6na6goilie6hspzwwmg5q7e7xwkj5wfuahkrfnlc7opq5tagx7gwn4uqvw52nfa2l2ieireiyea"
+  DealCollateral = "t3vzb2e3eko6na6goilie6hspzwwmg5q7e7xwkj5wfuahkrfnlc7opq5tagx7gwn4uqvw52nfa2l2ieireiyea"
+  PledgeCollateral = ""
+
+[Graphql]
+  Port = 8080
+
+[Tracing]
+  Enabled = false
+  ServiceName = "boostd"
+  Endpoint = ""
+
+[ContractDeals]
+  Enabled = false
+  AllowlistContracts = []
+  From = "0x0000000000000000000000000000000000000000"
+
+[LotusDealmaking]
+  ConsiderOnlineStorageDeals = true
+  ConsiderOfflineStorageDeals = true
+  ConsiderOnlineRetrievalDeals = true
+  ConsiderOfflineRetrievalDeals = true
+  ConsiderVerifiedStorageDeals = true
+  ConsiderUnverifiedStorageDeals = true
+  PieceCidBlocklist = []
+  ExpectedSealDuration = "24h0m0s"
+  MaxDealStartDelay = "336h0m0s"
+  MaxProviderCollateralMultiplier = 2
+  MaxStagingDealsBytes = 0
+  MaxStagingDealsPercentPerHost = 0
+  StartEpochSealingBuffer = 480
+  DealProposalLogDuration = ""
+  RetrievalLogDuration = ""
+  StalledRetrievalTimeout = ""
+  Filter = ""
+  RetrievalFilter = ""
+  BlockstoreCacheMaxShards = 0
+  BlockstoreCacheExpiry = ""
+  IsUnsealedCacheExpiry = ""
+  MaxTransferDuration = ""
+  RemoteCommp = false
+  MaxConcurrentLocalCommp = 0
+  HTTPRetrievalMultiaddr = ""
+  HttpTransferMaxConcurrentDownloads = 0
+  HttpTransferStallCheckPeriod = ""
+  HttpTransferStallTimeout = ""
+  BitswapPeerID = ""
+  BitswapPrivKeyFile = ""
+  DealLogDurationDays = 0
+  SealingPipelineCacheTimeout = ""
+  [LotusDealmaking.RetrievalPricing]
+    Strategy = "default"
+    [LotusDealmaking.RetrievalPricing.Default]
+      VerifiedDealsFreeTransfer = true
+    [LotusDealmaking.RetrievalPricing.External]
+      Path = ""
+
+[LotusFees]
+  MaxPublishDealsFee = "0.05 FIL"
+  MaxMarketBalanceAddFee = "0.007 FIL"
+
+[DAGStore]
+  RootDir = ""
+  MaxConcurrentIndex = 5
+  MaxConcurrentReadyFetches = 0
+  MaxConcurrentUnseals = 0
+  MaxConcurrencyStorageCalls = 100
+  GCInterval = "1m0s"
+
+[IndexProvider]
+  Enable = true
+  EntriesCacheCapacity = 1024
+  EntriesChunkSize = 16384
+  TopicName = ""
+  PurgeCacheOnStart = false

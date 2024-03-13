@@ -1,0 +1,110 @@
+syntax = "proto3";
+option go_package = "./;pb";
+import "google/protobuf/wrappers.proto";
+import "service/proto/header.proto";
+import "google/protobuf/empty.proto";
+
+service OpService{
+  rpc OpC2Connect (RequestConnect) returns (google.protobuf.Empty){}
+  rpc Heartbeat (String) returns (String);
+  rpc OpC2Heartbeat (String) returns (String);
+  rpc WorkerTaksRunList (String) returns (TaskList);
+  rpc Ok(Task) returns (google.protobuf.BoolValue);
+  rpc OkNew(minerSize) returns (TaskCan);
+  rpc AddRunning(Task) returns (ResponseMsg);
+  rpc SubRunning(Task) returns (ResponseMsg);
+  rpc ResetWorkerRunning(WorkerTasks) returns (google.protobuf.Empty);
+  rpc SetPreNumber(PreNumber) returns (ResponseMsg);
+  rpc GetSystemInfo (String) returns (String);
+  rpc StrategyProcess (StrategyInfo) returns (ResponseMsg);
+  rpc ExecuteScript (ScriptInfo) returns (String);
+  rpc FileDistribution (FileInfo) returns (String);
+  //  rpc WorkerInfoList (String) returns (WorkerList);
+  rpc RunNewLotus (LotusInfo) returns (google.protobuf.Empty);
+  //rpc RunService (LotusRun) returns (ResponseMsg);
+  rpc GetWalletList (RequestConnect) returns (WalletList);
+  rpc RunNewMiner (MinerInfo) returns (google.protobuf.Empty);
+  rpc RunMiner (MinerRun) returns (google.protobuf.Empty);
+  //  rpc UpdateLotus (ConnectInfo) returns (ResponseMsg);
+  //  rpc UpdateMiner (ConnectInfo) returns (ResponseMsg);
+  rpc RunBoost (BoostInfo) returns (google.protobuf.Empty);
+  rpc RunNewWorker (WorkerInfo) returns (google.protobuf.Empty);
+  rpc RunWorker (FilParam) returns (google.protobuf.Empty);
+  rpc UpdateWorker (ConnectInfo) returns (ResponseMsg){}
+  rpc RunNewStorage (WorkerInfo) returns (google.protobuf.Empty);
+  rpc AddNodeStorage (StorageInfo) returns (google.protobuf.Empty);
+  rpc RunAndStopService (RunStopType) returns (ResponseMsg);
+  rpc FileOpSynGateWay (AddFileInfo) returns (ResponseMsg);
+  rpc SysFileFrom (SynFileInfo) returns (ResponseMsg);
+  rpc ClearWorker (RequestOp) returns (ResponseMsg);
+  rpc DownLoadFiles (DownLoadInfo) returns (ResponseMsg);
+  rpc UnZipSynFile (FileInfo) returns (ResponseMsg);
+  rpc LotusHeight (RequestOp) returns (LotusHeightInfo);
+  rpc DelOpFile (FileInfo) returns (ResponseMsg);
+  rpc DelGateWayFile (FileInfo) returns (ResponseMsg);
+  rpc CreateOpFile (FileInfo) returns (ResponseMsg);
+  rpc GetOpC2Client (OpC2Client) returns (OpC2Client);
+  rpc CompleteCommit2(FileInfo) returns (ResponseMsg);
+  rpc AddGateWayFile (FileInfo) returns (ResponseMsg);
+  rpc GetOpFilePath (OpFilePath) returns (String);
+  rpc AddWarn (WarnInfo) returns (ResponseMsg);
+  rpc AddBadSector (BadSectorId) returns (ResponseMsg);
+  rpc OpFileToGateWay (AddFileInfo) returns (ResponseMsg);
+  rpc CheckOpPath (DirFileReq) returns (ResponseMsg);
+  rpc CarFilePath (CarFile) returns (CarFile);
+  rpc ScriptStop (ScriptInfo) returns (String);
+  rpc Commit2TaskResult (SectorID) returns (String){}
+  rpc C2FileSynStatus (C2SectorID) returns (String){}
+  rpc C2FileSynLotus (FileInfo) returns (String){}
+  rpc GetGateWayFile (String) returns (String);
+  rpc RunOpC2 (String) returns (String);
+  rpc StopOpC2 (String) returns (String);
+  rpc RedoC2Task (String) returns (String);
+
+  //task
+  rpc OpInformationTest (HostTestInfo) returns (String);
+  rpc UpdateSectorStatus (SectorStatus) returns (ResponseMsg);
+  rpc AddSectorTicket (SectorTicket) returns (ResponseMsg);
+  rpc AddSectorCommDR (SectorCommDR) returns (ResponseMsg);
+  rpc AddSectorWaitSeed (SectorSeed) returns (ResponseMsg);
+  rpc AddSectorCommit2 (SectorProof) returns (ResponseMsg);
+  rpc AddSectorPreCID (SectorCID) returns (ResponseMsg);
+  rpc AddSectorCommitCID (SectorCID) returns (ResponseMsg);
+  rpc OpInformationPatrol (HostPatrolInfo) returns (String);
+  rpc CloseOpInformationTest (CloseHostTest) returns (String);
+  rpc OpInformationTestRestart (RestartHostTest) returns (String);
+  rpc GetOpHardwareInfo (OpHardwareInfo) returns (String);
+  rpc Commit2TaskRun (SealerParam) returns (ResponseMsg){}
+  rpc GetRunningCount (String) returns (TaskCount);
+  rpc GetRunningList (String) returns (TaskInfoList);
+  rpc AddSectorPiece (SectorPiece) returns (ResponseMsg);
+  rpc AddSectorLog (SectorLog) returns (ResponseMsg);
+  rpc RedoSectorsTask (SectorsTask) returns (ResponseMsg);
+  rpc UpdateSectorLog (SectorLog) returns (ResponseMsg);
+  rpc OpServerPortControl (String) returns (String);
+  rpc GetStorageByActor (String) returns (LinkList);
+  rpc CloseOpServerPortControl (String) returns (String);
+  rpc EditMinerApCount(PledgeParam) returns (google.protobuf.Empty);
+  rpc OpCheckBadSector(HostCheckDiskInfo) returns (String);
+  rpc AddC2Task(SectorID) returns(String);
+  rpc DelC2Task(SectorID) returns(String);
+  rpc KillBenchAndScript(String) returns(String);
+  rpc AcquireSector(SectorRef) returns(SectorPath);
+  rpc GetColony(Actor) returns (Colony);
+  rpc NodeMountDisk (MountDiskInfo) returns (String);
+  rpc SealingAbort (FilRestWorker) returns (google.protobuf.Empty);
+  rpc localSectors(Actor) returns (SectorList);
+  rpc NodeAddShareDir (MountDiskInfo) returns (String);
+  rpc OpReplacePlugFile (OpReplaceFileInfo) returns (String);
+  rpc OpReplacePlugFile1 (String) returns (String);
+  rpc CheckLotusHeart (String) returns (String){}
+  rpc GetOpMonitorInfo (OpHardwareInfo) returns (MonitorInfo);
+  rpc GetOpScriptInfo (OpScriptInfo) returns (OpScriptInfoResp);
+  rpc GetDiskLetter (DiskLetterReq) returns (OpScriptInfoResp);
+  rpc GetOpMountInfo (DiskLetterReq) returns (OpMountDiskList);
+  rpc GetOpLogInfo (OpLogInfoReq) returns (OpLogInfoResp);
+  rpc GetOpLogLen (OpLogInfoReq) returns (OpLogLenResp);
+  rpc GetNodeMinerInfo (OpHardwareInfo) returns (NodeMinerInfoResp);
+  rpc UninstallMountDisk (MountDiskInfo) returns (String);
+
+}

@@ -1,0 +1,33 @@
+web:
+  addr: 127.0.0.1:50005
+  token: slfsdaklfhasldfjda
+gateway:
+  gateWayId: 8b356e3d-5e35-47a6-a933-07baa8cc0fcb
+  port: 50006
+  ip: 127.0.0.1
+  token: slfsdaklfhasldfjda
+op:
+  ip: 127.0.0.1
+  port: 50007
+  opId: 8b356e3d-5e35-47a6-a933-07bbb8cc0bbb1
+  token: sdhskfsdhfkjashflksahfklashfsadd
+opc-c2:
+  port: 50008
+  opId: 8b356e3d-5e35-47a6-a933-07bbb8cc0bbb1
+  token: sdhskfsdhfkjashflksahfklashfsadd1
+jwt:
+  signing-key: 8b356e3d-5e35-47a6-a933-07baa8cc0fcb
+download:
+  addr: 14.215.165.39:9533
+  user: admin
+  password: iZw03PNfUWu3IIHqpS
+zap:
+  level: info
+  prefix: '[oplian]'
+  format: console
+  director: log
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true

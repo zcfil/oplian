@@ -1,0 +1,26 @@
+syntax = "proto3";
+option go_package = "./;pb";
+import "google/protobuf/empty.proto";
+import "service/proto/slot/slot_header.proto";
+import "service/proto/header.proto";
+
+service SlotGateService{
+  rpc AddUnsealed (batchUnsealed) returns (google.protobuf.Empty);
+  rpc InstallUnsealed (String) returns (google.protobuf.Empty);
+  //workerCar RPC
+  rpc GetRunWorkerTask(String)returns (CarWorkerTaskNoInfo){}
+  rpc ModifyCarTaskNo(CarWorkerTaskNoInfo)returns (ResponseMsg){}
+  rpc AddCarWorkerTaskDetail(CarWorkerTaskDetailInfo)returns (ResponseMsg){}
+  rpc GetRunCarTaskDetail(WorkerCarParam)returns (CarWorkerTaskDetailInfo){}
+  rpc ModifyCarTaskDetailInfo(CarWorkerTaskDetailInfo)returns (ResponseMsg){}
+  rpc GetRand(String)returns (RandList){}
+  rpc GetWaitCarTaskDetail(WorkerCarParam)returns (CarWorkerTaskDetailInfo){}
+  rpc GetAllCarTaskDetail(WorkerCarParam)returns (CarWorkerTaskDetailList){}
+  rpc GetBoostConfig(String)returns (String){}
+  rpc GetMainDisk(String)returns (String){}
+  rpc DistributeWorkerTask(String)returns (String){}
+  rpc AddCarRand(String)returns (String){}
+  rpc CarFileExist(SectorID)returns (String){}
+  rpc AddCarFile(CarFiles)returns (String){}
+  rpc ReplacePlugFile(ReplaceFileInfo)returns (google.protobuf.Empty){};
+}
