@@ -35,7 +35,7 @@ func RangePathSectors() {
 	size = define.Ss32GiB
 	var minerSector = make(map[string]string)
 	//actor := utils.MinerActorID(miner)
-	
+
 	var mp = make(map[string]struct{})
 	var count int
 	for _, path := range storages.StoragePaths {
@@ -72,7 +72,6 @@ func RangePathSectors() {
 					oplocal.SealSectorPath.Push(info.Name(), path.Path)
 					//}
 					if utils.ExistFileOrDir(filepath.Join(path.Path, define.FTSealed.String(), info.Name())) {
-						//P1µÄ++
 						count++
 						oplocal.PathSealCount.Push(path.Path, info.Name(), false)
 					}

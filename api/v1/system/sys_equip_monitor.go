@@ -454,8 +454,7 @@ func (s *EquipMonitorApi) GetHostScriptResult(c *gin.Context) {
 	response.OkWithDetailed(res, "Successfully obtained script information", c)
 }
 
-
-// LocalDiskReMounting 
+// LocalDiskReMounting
 func (s *EquipMonitorApi) LocalDiskReMounting(c *gin.Context) {
 	var scriptReq request.HostScriptReq
 	err := c.ShouldBindQuery(&scriptReq)
@@ -733,7 +732,6 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-// GetTestWSTest �����洢����Ϣ
 func (s *EquipMonitorApi) GetTestWSTest(c *gin.Context) {
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
@@ -744,15 +742,11 @@ func (s *EquipMonitorApi) GetTestWSTest(c *gin.Context) {
 	defer conn.Close()
 
 	for {
-		// ��ȡ��Ϣ
-		_, msg, err := conn.ReadMessage()
+		_, _, err = conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
 			return
 		}
-
-		// ������Ϣ
-		log.Printf("�յ���Ϣ: %s", msg)
 
 		beginTime := time.Now()
 		for {
@@ -770,7 +764,6 @@ func (s *EquipMonitorApi) GetTestWSTest(c *gin.Context) {
 	}
 }
 
-// GetHostLogsTest �����洢����Ϣ
 func (s *EquipMonitorApi) GetHostLogsTest(c *gin.Context) {
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
@@ -1083,7 +1076,7 @@ func (s *EquipMonitorApi) GetNodeMinerInfo(c *gin.Context) {
 
 // GetHostLogsNum
 func (s *EquipMonitorApi) GetHostLogsNum(c *gin.Context) {
-	// ��ȡ��Ӧ�ڵ���Ϣ
+
 	var nodeInfoReq request.GetNodeLogInfoReq
 	err := c.ShouldBindQuery(&nodeInfoReq)
 	if err != nil {
@@ -1091,7 +1084,6 @@ func (s *EquipMonitorApi) GetHostLogsNum(c *gin.Context) {
 		return
 	}
 
-	// ���Ӷ�Ӧ�ڵ�gateway
 	client := global.GateWayClinets.GetGateWayClinet(nodeInfoReq.GatewayId)
 	if client == nil {
 		global.ZC_LOG.Error("Connection gateway failed: ", zap.Error(err))
@@ -1116,7 +1108,6 @@ func (s *EquipMonitorApi) GetHostLogsNum(c *gin.Context) {
 		return
 	}
 
-	// ��ȡ������־����
 	opLogLenResp, err := client.GetOpLogLen(context.TODO(),
 		&pb.OpLogInfoReq{
 			HostUUID:     nodeInfoReq.UUID,
