@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -23,7 +22,6 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SlotOpServiceClient interface {
-	AddUnsealed(ctx context.Context, in *BatchUnsealed, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	//workerCar RPC
 	GetRunWorkerTask(ctx context.Context, in *String, opts ...grpc.CallOption) (*CarWorkerTaskNoInfo, error)
 	ModifyCarTaskNo(ctx context.Context, in *CarWorkerTaskNoInfo, opts ...grpc.CallOption) (*ResponseMsg, error)
@@ -47,15 +45,6 @@ type slotOpServiceClient struct {
 
 func NewSlotOpServiceClient(cc grpc.ClientConnInterface) SlotOpServiceClient {
 	return &slotOpServiceClient{cc}
-}
-
-func (c *slotOpServiceClient) AddUnsealed(ctx context.Context, in *BatchUnsealed, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/SlotOpService/AddUnsealed", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *slotOpServiceClient) GetRunWorkerTask(ctx context.Context, in *String, opts ...grpc.CallOption) (*CarWorkerTaskNoInfo, error) {
@@ -188,7 +177,6 @@ func (c *slotOpServiceClient) AddCarFile(ctx context.Context, in *CarFiles, opts
 // All implementations should embed UnimplementedSlotOpServiceServer
 // for forward compatibility
 type SlotOpServiceServer interface {
-	AddUnsealed(context.Context, *BatchUnsealed) (*emptypb.Empty, error)
 	//workerCar RPC
 	GetRunWorkerTask(context.Context, *String) (*CarWorkerTaskNoInfo, error)
 	ModifyCarTaskNo(context.Context, *CarWorkerTaskNoInfo) (*ResponseMsg, error)
@@ -210,9 +198,6 @@ type SlotOpServiceServer interface {
 type UnimplementedSlotOpServiceServer struct {
 }
 
-func (UnimplementedSlotOpServiceServer) AddUnsealed(context.Context, *BatchUnsealed) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddUnsealed not implemented")
-}
 func (UnimplementedSlotOpServiceServer) GetRunWorkerTask(context.Context, *String) (*CarWorkerTaskNoInfo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRunWorkerTask not implemented")
 }
@@ -265,24 +250,6 @@ type UnsafeSlotOpServiceServer interface {
 
 func RegisterSlotOpServiceServer(s grpc.ServiceRegistrar, srv SlotOpServiceServer) {
 	s.RegisterService(&SlotOpService_ServiceDesc, srv)
-}
-
-func _SlotOpService_AddUnsealed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BatchUnsealed)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SlotOpServiceServer).AddUnsealed(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/SlotOpService/AddUnsealed",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SlotOpServiceServer).AddUnsealed(ctx, req.(*BatchUnsealed))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _SlotOpService_GetRunWorkerTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -544,10 +511,6 @@ var SlotOpService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "SlotOpService",
 	HandlerType: (*SlotOpServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "AddUnsealed",
-			Handler:    _SlotOpService_AddUnsealed_Handler,
-		},
 		{
 			MethodName: "GetRunWorkerTask",
 			Handler:    _SlotOpService_GetRunWorkerTask_Handler,

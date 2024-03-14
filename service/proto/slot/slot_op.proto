@@ -1,6 +1,5 @@
 syntax = "proto3";
 option go_package = "./;pb";
-import "google/protobuf/empty.proto";
 import "service/proto/slot/slot_header.proto";
 import "service/proto/header.proto";
 
